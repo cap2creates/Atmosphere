@@ -33,7 +33,7 @@ function setSettings()
     end
 end
 function createGui()
-    return loadstring(game:HttpGet())
+    return loadstring(game:HttpGet("https://raw.githubusercontent.com/cap2creates/Atmosphere/main/gui.lua"))()
 end
 
 function Atmosphere:LoadingScreen(info)
