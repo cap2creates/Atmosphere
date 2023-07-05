@@ -62,3 +62,4 @@ function Atmosphere:Initiate()
 end
 Atmosphere:LoadingScreen({["KeyEnabled"] = false, ["GUIInfo"] = {["GUIName"] = "amogas"}})
 Atmosphere:Initiate()
+return Atmosphere
