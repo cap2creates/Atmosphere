@@ -4,6 +4,7 @@ This script has the loadstring and all of the functions and how Atmosphere works
 All gui and code is free to use but please give credit because i worked hard on this
 Please leave all of the tables and things in the tables, Atmosphere will break if you dont
 ]]
+--WARNING: Atmosphere is a new gui, started at 7/3/2023 so if it is still new then EXPECT BUGS and there will be very little features
 local Atmosphere = loadstring(game:HttpGet("https://raw.githubusercontent.com/cap2creates/Atmosphere/main/source.lua"))() --The loadstring, always put at the start of the script
 
 Atmosphere:LoadingScreen({
