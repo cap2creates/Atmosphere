@@ -60,6 +60,4 @@ function Atmosphere:Initiate()
     setSettings()
     createGui()
 end
-Atmosphere:LoadingScreen({["KeyEnabled"] = false, ["GUIInfo"] = {["GUIName"] = "amogas"}})
-Atmosphere:Initiate()
 return Atmosphere
