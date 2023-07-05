@@ -21,8 +21,7 @@ function setSettings()
                 ["Font"] = Enum.Font.FredokaOne,
                 ["Color"] = AtmosphereMainVariables["Colors"]["TextColor"],
                 ["Scaled"] = true,
-                ["Size"] = nil,
-                [""]
+                ["Size"] = nil
             }
         }
     end
