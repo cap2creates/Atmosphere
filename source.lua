@@ -1,6 +1,7 @@
 local Atmosphere
 local AtmosphereMainVariables
 local ImageIDs
+local GuiSettings
 function setSettings()
     if AtmosphereMainVariables then
         AtmosphereMainVariables = {
@@ -33,7 +34,21 @@ function setSettings()
     end
 end
 function createGui()
-    return loadstring(game:HttpGet("https://raw.githubusercontent.com/cap2creates/Atmosphere/main/gui.lua"))()
+    local AtmosphereLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/cap2creates/Atmosphere/main/gui.lua"))()
+    Atmosphere = AtmosphereLib
+    local Label = AtmosphereLib.MainFrame.TopBar.Title
+    if not Label or not AtmosphereMainVariables then return end
+    Label.Font = AtmosphereMainVariables["TextLabelSettings"]["Font"]
+    Label.TextScaled = AtmosphereMainVariables["TextLabelSettings"]["Scaled"]
+    if not Label.TextScaled then Label.TextSize = AtmosphereMainVariables["TextLabelSettings"]["Size"] end
+    Label.Text = GuiSettings["GUIName"]
+    local stroke = Instance.new("UIStroke",Label)
+    stroke.Thickness = AtmosphereMainVariables["UIStrokeSettings"]["Thickness"]
+    stroke.Color = AtmosphereMainVariables["UIStrokeSettings"]["Color"]
+    stroke.ApplyStrokeMode = AtmosphereMainVariables["UIStrokeSettings"]["StrokeMode"]
+    stroke.LineJoinMode = AtmosphereMainVariables["UIStrokeSettings"]["LineMode"]
+    stroke.Transparency = AtmosphereMainVariables["UIStrokeSettings"]["Transparency"]
+    return AtmosphereLib
 end
 
 function Atmosphere:LoadingScreen(info)
@@ -41,7 +56,7 @@ function Atmosphere:LoadingScreen(info)
         findAtmosphere().Disconnect.Value = true
     end
     if info.KeyEnabled == true then
-
+        --later
     end
-
+    createGui()
 end
