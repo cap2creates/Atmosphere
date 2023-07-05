@@ -1,44 +1,41 @@
 local Atmosphere = {}
+local AtmosphereLib
 local AtmosphereMainVariables
 local ImageIDs
 local GuiSettings
-function setSettings()
-    if AtmosphereMainVariables then
-        AtmosphereMainVariables = {
-            ["Colors"] = {
-                ["TopBarButtons"] = Color3.fromRGB(140,140,140),
-                ["MinimizeButton"] = Color3.fromRGB(255,255,255),
-                ["TextColor"] = Color3.fromRGB(55,55,55)
-            },
-            ["UIStrokeSettings"] = {
-                ["Thickness"] = 2,
-                ["Color"] = Color3.fromRGB(0, 0, 0),
-                ["StrokeMode"] = Enum.ApplyStrokeMode.Contextual,
-                ["LineMode"] = Enum.LineJoinMode.Round,
-                ["Transparency"] = 0
-            },
-            ["TextLabelSettings"] = {
-                ["Font"] = Enum.Font.FredokaOne,
-                ["Color"] = AtmosphereMainVariables["Colors"]["TextColor"],
-                ["Scaled"] = true,
-                ["Size"] = nil
-            }
+local function setSettings()
+    AtmosphereMainVariables = {
+         ["Colors"] = {
+            ["TopBarButtons"] = Color3.fromRGB(140,140,140),
+            ["MinimizeButton"] = Color3.fromRGB(255,255,255),
+            ["TextColor"] = Color3.fromRGB(55,55,55)            },
+        ["UIStrokeSettings"] = {
+            ["Thickness"] = 2,
+            ["Color"] = Color3.fromRGB(0, 0, 0),
+            ["StrokeMode"] = Enum.ApplyStrokeMode.Contextual,
+            ["LineMode"] = Enum.LineJoinMode.Round,
+            ["Transparency"] = 0
         }
-    end
-    if ImageIDs then
-        ImageIDs = {
-            ["Minimize"] = "http://www.roblox.com/asset/?id=11622919444",
-            ["Open"] = "http://www.roblox.com/asset/?id=12072054746"
+    }
+    AtmosphereMainVariables["TextLabelSettings"] = {
+            ["Font"] = Enum.Font.FredokaOne,
+            ["Color"] = AtmosphereMainVariables["Colors"]["TextColor"],
+            ["Scaled"] = true,
+            ["Size"] = nil
         }
-    end
+     ImageIDs = {
+        ["Minimize"] = "http://www.roblox.com/asset/?id=11622919444",
+        ["Open"] = "http://www.roblox.com/asset/?id=12072054746"
+    }
 end
-function createGui()
-    local AtmosphereLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/cap2creates/Atmosphere/main/gui.lua"))()
-    Atmosphere = AtmosphereLib
-    local Label = AtmosphereLib.MainFrame.TopBar.Title
-    if not Label or not AtmosphereMainVariables then return end
+local function createGui()
+    local AtmosphereGUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/cap2creates/Atmosphere/main/gui.lua"))()
+    AtmosphereLib = AtmosphereGUI
+    local Label = AtmosphereGUI.MainFrame.TopBar.Title
+    if not Label then return end
     Label.Font = AtmosphereMainVariables["TextLabelSettings"]["Font"]
     Label.TextScaled = AtmosphereMainVariables["TextLabelSettings"]["Scaled"]
+    Label.TextColor3 = AtmosphereMainVariables["TextLabelSettings"]["Color"]
     if not Label.TextScaled then Label.TextSize = AtmosphereMainVariables["TextLabelSettings"]["Size"] end
     Label.Text = GuiSettings["GUIName"]
     local stroke = Instance.new("UIStroke",Label)
@@ -51,11 +48,17 @@ function createGui()
 end
 
 function Atmosphere:LoadingScreen(info)
-    if findAtmosphere() then
+    --[[if findAtmosphere() then
         findAtmosphere().Disconnect.Value = true
-    end
+    end]]
+    GuiSettings = info["GUIInfo"]
     if info.KeyEnabled == true then
         --later
     end
+end
+function Atmosphere:Initiate()
+    setSettings()
     createGui()
 end
+Atmosphere:LoadingScreen({["KeyEnabled"] = false, ["GUIInfo"] = {["GUIName"] = "amogas"}})
+Atmosphere:Initiate()
