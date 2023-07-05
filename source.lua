@@ -36,6 +36,7 @@ end
 local function findAtmosphere()
     local item = nil
     for i,v in pairs(game.Players.LocalPlayer.PlayerGui:GetChildren()) do
+        
         if v.Name == "AtmosphereLib" and v:FindFirstChild("MainFrame") then
             item = v
             break
@@ -48,13 +49,13 @@ local function createGui()
     AtmosphereLib = AtmosphereGUI
     local Label = AtmosphereGUI.MainFrame.TopBar.Title
     if not Label then return end
+    Label.Text = GuiSettings["GUIName"]
     AtmosphereLib.MainFrame.Size = UDim2.new(0.5,0,0,0)
     AtmosphereLib.MainFrame.Visible = false
     Label.Font = AtmosphereMainVariables["TextLabelSettings"]["Font"]
     Label.TextScaled = AtmosphereMainVariables["TextLabelSettings"]["Scaled"]
     Label.TextColor3 = AtmosphereMainVariables["TextLabelSettings"]["Color"]
     if not Label.TextScaled then Label.TextSize = AtmosphereMainVariables["TextLabelSettings"]["Size"] end
-    Label.Text = GuiSettings["GUIName"]
     local stroke = Instance.new("UIStroke",Label)
     stroke.Thickness = AtmosphereMainVariables["UIStrokeSettings"]["Thickness"]
     stroke.Color = AtmosphereMainVariables["UIStrokeSettings"]["Color"]
@@ -64,7 +65,6 @@ local function createGui()
     return AtmosphereLib
 end
 local function createLoadingScreen()
-    local AtmosphereLib = Instance.new("ScreenGui")
     local LoadingScreen = Instance.new("Frame")
     local UICorner = Instance.new("UICorner")
     local UIGradient = Instance.new("UIGradient")
@@ -99,6 +99,13 @@ local function createLoadingScreen()
     MainLabel.TextSize = 35.000
     MainLabel.TextWrapped = true
 
+    local stroke = Instance.new("UIStroke",MainLabel)
+    stroke.Thickness = AtmosphereMainVariables["UIStrokeSettings"]["Thickness"]
+    stroke.Color = AtmosphereMainVariables["UIStrokeSettings"]["Color"]
+    stroke.ApplyStrokeMode = AtmosphereMainVariables["UIStrokeSettings"]["StrokeMode"]
+    stroke.LineJoinMode = AtmosphereMainVariables["UIStrokeSettings"]["LineMode"]
+    stroke.Transparency = AtmosphereMainVariables["UIStrokeSettings"]["Transparency"]
+
     KeyBox.Name = "KeyBox"
     KeyBox.Parent = LoadingScreen
     KeyBox.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
@@ -112,6 +119,14 @@ local function createLoadingScreen()
     KeyBox.TextScaled = true
     KeyBox.TextSize = 14.000
     KeyBox.TextWrapped = true
+    KeyBox.Visible = false
+
+    local stroke = Instance.new("UIStroke",KeyBox)
+    stroke.Thickness = AtmosphereMainVariables["UIStrokeSettings"]["Thickness"]
+    stroke.Color = AtmosphereMainVariables["UIStrokeSettings"]["Color"]
+    stroke.ApplyStrokeMode = AtmosphereMainVariables["UIStrokeSettings"]["StrokeMode"]
+    stroke.LineJoinMode = AtmosphereMainVariables["UIStrokeSettings"]["LineMode"]
+    stroke.Transparency = AtmosphereMainVariables["UIStrokeSettings"]["Transparency"]
 
     UICorner_2.CornerRadius = UDim.new(0, 12)
     UICorner_2.Parent = KeyBox
@@ -127,6 +142,14 @@ local function createLoadingScreen()
     Check.TextScaled = true
     Check.TextSize = 20.000
     Check.TextWrapped = true
+    Check.Visible = false
+
+    local stroke = Instance.new("UIStroke",Check)
+    stroke.Thickness = AtmosphereMainVariables["UIStrokeSettings"]["Thickness"]
+    stroke.Color = AtmosphereMainVariables["UIStrokeSettings"]["Color"]
+    stroke.ApplyStrokeMode = AtmosphereMainVariables["UIStrokeSettings"]["StrokeMode"]
+    stroke.LineJoinMode = AtmosphereMainVariables["UIStrokeSettings"]["LineMode"]
+    stroke.Transparency = AtmosphereMainVariables["UIStrokeSettings"]["Transparency"]
 
     UICorner_3.CornerRadius = UDim.new(1,0)
     UICorner_3.Parent = Check
@@ -144,41 +167,57 @@ local function createLoadingScreen()
     return LoadingScreen
 end
 function Atmosphere:LoadingScreen(info)
-    if findAtmosphere() then
-        findAtmosphere().Disconnect.Value = true
-    end
-    GuiSettings = info["GUIInfo"]
-    local lS = createLoadingScreen()
-    LS.Size = UDim2.new(0.175,0,0,0)
-    TweenService:Create(lS,TweenInfo.new(0.5,"Bounce","Out",0),{Size = UDim2.new(0.175,0,0.175,0)}):Play()
-    if info.KeyEnabled == true then
-        lS.KeyBox.Visible = true
-        lS.Check.Visible = true
-        lS.Check.MouseButton1Click:Connect(function()
-            if ls.KeyBox.Text == info["Key"] then
-                local tween = TweenService:Create(lS.Check,TweenInfo.new(0.75,"Linear","Out",0),{Size = UDim2.new(0.1,0,0.2,0)})
-                tween:Play()
-                task.wait(0.4)
-                local tween2 = TweenService:Create(lS.Check,TweenInfo.new(0.75,"Linear","Out",0),{TextTransparency = 1})
-                tween2:Play()
-                spawn(function()
-                    local tween3 = TweenService:Create(lS.Check.CheckMark,TweenInfo.new(0.35,"Linear","Out",0),{ImageTransparency = 0})
+    spawn(function()
+        GuiSettings = info["GUIInfo"]
+        if findAtmosphere() then
+            findAtmosphere().Disconnect.Value = true
+        end
+        print("e")
+        repeat wait() until findAtmosphere()
+        print("e")
+        local lS = createLoadingScreen()
+        lS.Size = UDim2.new(0.175,0,0,0)
+        lS.Visible = true
+        TweenService:Create(lS,TweenInfo.new(0.2,Enum.EasingStyle.Linear,Enum.EasingDirection.Out,0),{Size = UDim2.new(0.175,0,0.175,0)}):Play()
+        if info["KeyEnabled"] == true then
+            lS.KeyBox.Visible = true
+            lS.Check.Visible = true
+            local keyGuessed = false
+            lS.Check.MouseButton1Click:Connect(function()
+                if lS.KeyBox.Text == info["Key"] then
+                    local tween = TweenService:Create(lS.Check,TweenInfo.new(0.2,Enum.EasingStyle.Linear,Enum.EasingDirection.Out,0),{Size = UDim2.new(0.1,0,0.2,0)})
+                    tween:Play()
+                    task.wait(0.4)
+                    local tween2 = TweenService:Create(lS.Check,TweenInfo.new(0.1,Enum.EasingStyle.Linear,Enum.EasingDirection.Out,0),{TextTransparency = 1})
+                    local tween3 = TweenService:Create(lS.Check.UIStroke,TweenInfo.new(0.1,Enum.EasingStyle.Linear,Enum.EasingDirection.Out,0),{Transparency = 1})
                     tween3:Play()
-                end)
-                tween = TweenService:Create(lS,TweenInfo.new(0.6,"Linear","Out",0),{Size = UDim2.new(0.175,0,0,0)})
-                tween:Play()
-                task.wait(0.6)
-                lS.Visible = false
-            end
-        end)
-    else
-        task.wait(3)
-        local tween = TweenService:Create(lS,TweenInfo.new(0.6,"Linear","Out",0),{Size = UDim2.new(0.175,0,0,0)})
-        task.wait(0.6)
-    end
-    task.wait(0.15)
-    AtmosphereLib.MainFrame.Visible = true
-    local tween = TweenService:Create(AtmosphereLib.MainFrame,TweenInfo.new(0.85,"Linear","Out",0),{Size = UDim2.new(0.5,0,0.5,0)})
+                    tween2:Play()
+                    spawn(function()
+                        task.wait(0.1)
+                        local tween3 = TweenService:Create(lS.Check.CheckMark,TweenInfo.new(0.1,Enum.EasingStyle.Linear,Enum.EasingDirection.Out,0),{ImageTransparency = 0})
+                        tween3:Play()
+                    end)
+                    task.wait(1.2)
+                    tween = TweenService:Create(lS,TweenInfo.new(0.15,Enum.EasingStyle.Linear,Enum.EasingDirection.Out,0),{Size = UDim2.new(0.175,0,0,0)})
+                    tween:Play()
+                    task.wait(0.1)
+                    lS.Visible = false
+                    keyGuessed = true
+                end
+            end)
+            repeat wait() until keyGuessed == true
+        elseif info["KeyEnabled"] == false then
+            task.wait(3)
+            local tween = TweenService:Create(lS,TweenInfo.new(0.15,Enum.EasingStyle.Linear,Enum.EasingDirection.Out,0),{Size = UDim2.new(0.175,0,0,0)})
+            tween:Play()
+            task.wait(0.1)
+            lS.Visible = false
+        end
+        task.wait(0.5)
+        AtmosphereLib.MainFrame.Visible = true
+        local tween = TweenService:Create(AtmosphereLib.MainFrame,TweenInfo.new(0.22,Enum.EasingStyle.Linear,Enum.EasingDirection.Out,0),{Size = UDim2.new(0.5,0,0.5,0)})
+        tween:Play()
+    end)
 end
 spawn(function()
     if not findAtmosphere() then repeat task.wait() until findAtmosphere() end
