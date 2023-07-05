@@ -48,7 +48,7 @@ local function createGui()
     AtmosphereLib = AtmosphereGUI
     local Label = AtmosphereGUI.MainFrame.TopBar.Title
     if not Label then return end
-    AtmosphereLib.MainFrame.Size = 0.5,0,0,0
+    AtmosphereLib.MainFrame.Size = UDim2.new(0.5,0,0,0)
     AtmosphereLib.MainFrame.Visible = false
     Label.Font = AtmosphereMainVariables["TextLabelSettings"]["Font"]
     Label.TextScaled = AtmosphereMainVariables["TextLabelSettings"]["Scaled"]
