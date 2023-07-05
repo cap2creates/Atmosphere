@@ -19,6 +19,7 @@ local ButtonMainFrame = Instance.new("ScrollingFrame")
 local UIListLayout = Instance.new("UIListLayout")
 local Catergories = Instance.new("ScrollingFrame")
 local UIListLayout_2 = Instance.new("UIListLayout")
+local Disconnect = Instance.new("BoolValue")
 
 AtmosphereLib.Name = "AtmosphereLib"
 AtmosphereLib.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
@@ -125,5 +126,9 @@ UIListLayout_2.FillDirection = Enum.FillDirection.Horizontal
 UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
 UIListLayout_2.VerticalAlignment = Enum.VerticalAlignment.Center
 UIListLayout_2.Padding = UDim.new(0.0500000007, 0)
+
+Disconnect.Name = "Disconnect"
+Disconnect.Parent = AtmosphereLib
+Disconnect.Value = false
 
 return AtmosphereLib
