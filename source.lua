@@ -1,4 +1,4 @@
-local Atmosphere
+local Atmosphere = {}
 local AtmosphereMainVariables
 local ImageIDs
 local GuiSettings
