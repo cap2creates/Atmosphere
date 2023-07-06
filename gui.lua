@@ -24,6 +24,7 @@ local Disconnect = Instance.new("BoolValue")
 AtmosphereLib.Name = "AtmosphereLib"
 AtmosphereLib.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 AtmosphereLib.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+AtmosphereLib.ResetOnSpawn = false
 
 MainFrame.Name = "MainFrame"
 MainFrame.Parent = AtmosphereLib
