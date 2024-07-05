@@ -1,3 +1,24 @@
+--this isnt used anymore, this is put inside of the script now
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 -- Gui to Lua
 -- Version: 3.2
 
